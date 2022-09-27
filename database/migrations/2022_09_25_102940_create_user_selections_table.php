@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_selections', function (Blueprint $table) {
-            $table->id();$table->unsignedBigInteger('user_id');
+            $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('selected_user_id');
+            $table->unsignedBigInteger('friend_id');
             $table->integer('status')->comment('0=dislike;1=like;2=superlike');
             $table->timestamps();
         });

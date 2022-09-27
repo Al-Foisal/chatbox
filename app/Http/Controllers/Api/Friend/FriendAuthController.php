@@ -301,7 +301,9 @@ class FriendAuthController extends Controller {
 
         $user            = User::find($request->user_id);
         $user->name      = $request->name;
+        $user->email      = $request->email;
         $user->dob       = $request->dob;
+        $user->emoji       = $request->emoji;
         $user->gender    = $request->gender;
         $user->image1    = $final_name1;
         $user->image2    = $final_name2;

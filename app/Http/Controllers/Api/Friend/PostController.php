@@ -41,10 +41,10 @@ class PostController extends Controller {
             }
 
             foreach ($files as $file) {
-                PostImage::create([
-                    'post_id' => $post->id,
-                    'image'   => $file,
-                ]);
+                $post = new PostImage();
+                $post->post_id = $post->id;
+                $post->image = $file;
+                $post->save();
             }
 
         }
@@ -60,14 +60,14 @@ class PostController extends Controller {
             foreach ($request->file('video') as $file) {
                 $name = time() . rand(1111, 9999) . '.' . $file->extension();
                 $file->move(public_path('images/post/video/'), $name);
-                $files[] = 'iamges/post/' . $name;
+                $files[] = 'iamges/post/video/' . $name;
             }
 
             foreach ($files as $file) {
-                PostVideo::create([
-                    'post_id' => $post->id,
-                    'video'   => $file,
-                ]);
+                $post = new PostVideo();
+                $post->post_id = $post->id;
+                $post->video = $file;
+                $post->save();
             }
 
         }
