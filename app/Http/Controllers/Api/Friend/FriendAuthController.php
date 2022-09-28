@@ -93,6 +93,7 @@ class FriendAuthController extends Controller {
         }
 
         $user = User::where('phone', $request->phone)->where('otp', null)->first();
+
         if (!$user) {
             return response()->json(['message' => 'Something went wrong!!']);
         }
@@ -123,7 +124,7 @@ class FriendAuthController extends Controller {
         $user->gender   = $request->gender;
         $user->lat      = $request->lat;
         $user->long     = $request->long;
-        $user->image1   = $final_name1??'img';
+        $user->image1   = $final_name1 ?? 'img';
         $user->save();
 
         return response()->json(['status' => true, 'user' => $user]);
@@ -301,9 +302,9 @@ class FriendAuthController extends Controller {
 
         $user            = User::find($request->user_id);
         $user->name      = $request->name;
-        $user->email      = $request->email;
+        $user->email     = $request->email;
         $user->dob       = $request->dob;
-        $user->emoji       = $request->emoji;
+        $user->emoji     = $request->emoji;
         $user->gender    = $request->gender;
         $user->image1    = $final_name1;
         $user->image2    = $final_name2;

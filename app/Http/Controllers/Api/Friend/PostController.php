@@ -9,12 +9,14 @@ use App\Models\PostImage;
 use App\Models\PostLike;
 use App\Models\PostVideo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class PostController extends Controller {
-    public function index() {
-        $post = DB::table('posts')->get();
+    public function index($user_id) {
+        $post = Post::where('user_id', $user_id)
+            ->with(['images', 'videos', 'comments'])
+            ->withCount('likes')
+            ->get();
 
         return $post;
     }
@@ -23,7 +25,6 @@ class PostController extends Controller {
         $post          = new Post();
         $post->user_id = $request->user_id;
         $post->caption = $request->caption;
-        $post->ip      = $request->ip;
         $post->save();
 
         /**
@@ -41,10 +42,10 @@ class PostController extends Controller {
             }
 
             foreach ($files as $file) {
-                $post = new PostImage();
-                $post->post_id = $post->id;
-                $post->image = $file;
-                $post->save();
+                $post_image          = new PostImage();
+                $post_image->post_id = $post->id;
+                $post_image->image   = $file;
+                $post_image->save();
             }
 
         }
@@ -64,10 +65,10 @@ class PostController extends Controller {
             }
 
             foreach ($files as $file) {
-                $post = new PostVideo();
-                $post->post_id = $post->id;
-                $post->video = $file;
-                $post->save();
+                $post_video          = new PostVideo();
+                $post_video->post_id = $post->id;
+                $post_video->video   = $file;
+                $post_video->save();
             }
 
         }
