@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\Friend\FriendAuthController;
 use App\Http\Controllers\Api\Friend\FriendOperationController;
 use App\Http\Controllers\Api\Friend\PostController;
@@ -40,6 +41,14 @@ Route::prefix('/friend')->group(function () {
         Route::get('/{id}', 'us');
         Route::post('/user-choice-as', 'userChoiceAs');
         Route::post('/approve-choice-user', 'approveChoiceUser');
+    });
+
+    Route::controller(ChatController::class)->prefix('/chat')->group(function () {
+        Route::get('/list/{user_id}', 'chatList');
+        Route::post('/store-chat', 'storeChat');
+        Route::get('/details/{user_id}/{friend_id}', 'chatDetails');
+        Route::get('/last-chat-details/{user_id}/{friend_id}', 'lastChatDetails');
+        Route::get('/count-unread-message/{user_id}/{friend_id}', 'countUnreadMessage');
     });
 
     Route::controller(FriendOperationController::class)->prefix('/connect')->group(function () {

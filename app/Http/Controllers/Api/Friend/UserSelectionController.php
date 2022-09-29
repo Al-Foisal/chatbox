@@ -52,7 +52,7 @@ class UserSelectionController extends Controller {
                     'friend_id'        => $request->selected_user_id,
                 ]);
 
-                return response()->json(['status' => true, 'message' => 'Your swap is matched with previous friend.']);
+                return response()->json(['status' => true, 'select_as' => 3]);
             } else {
 
                 UserSelection::create([
@@ -74,7 +74,7 @@ class UserSelectionController extends Controller {
 
             return response()->json(['status' => true, 'select_as' => $select->status]);
         } else {
-            return response()->json(['status' => false, 'message' => 'Nothing found.']);
+            return response()->json(['status' => false, 'select_as' => 4]);
         }
 
     }
