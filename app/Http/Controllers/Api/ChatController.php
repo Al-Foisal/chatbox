@@ -20,10 +20,25 @@ class ChatController extends Controller {
     }
 
     public function storeChat(Request $request) {
+
+        if (Chat::where('user_id', $request->user_id)->where('friend_id', $request->friend_id)->orderBy('id', 'DESC')->first()) {
+            $user_id   = $request->user_id;
+            $friend_id = $request->friend_id;
+            $send_by = $user_id;
+        } elseif(Chat::where('user_id', $request->friend_id)->where('friend_id', $request->user_id)->orderBy('id', 'DESC')->first()) {
+            $user_id   = $request->friend_id;
+            $friend_id = $request->user_id;
+            $send_by = $friend_id;
+        } else {
+            $user_id   = $request->user_id;
+            $friend_id = $request->friend_id;
+            $send_by = $user_id;
+        }
+
         $chat            = new Chat();
-        $chat->user_id   = $request->user_id;
-        $chat->friend_id = $request->friend_id;
-        $chat->send_by   = $request->user_id;
+        $chat->user_id   = $user_id;
+        $chat->friend_id = $friend_id;
+        $chat->send_by   = $send_by;
         $chat->message   = $request->message;
         $chat->save();
 
@@ -32,8 +47,8 @@ class ChatController extends Controller {
 
     public function chatDetails($user_id, $friend_id) {
         $chat = DB::table('chats')
-            ->where('send_by', $user_id)
-            ->where('send_by', $friend_id)
+            ->where('user_id', $user_id)
+            ->where('friend_id', $friend_id)
             ->orderBy('id', 'desc')
             ->paginate(50);
         $unread = DB::table('chats')
