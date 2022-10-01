@@ -5,6 +5,9 @@ use App\Http\Controllers\Backend\AdminForgotPasswordController;
 use App\Http\Controllers\Backend\AdminResetPasswordController;
 use App\Http\Controllers\Backend\CompanyInfoController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\PackageController;
+use App\Http\Controllers\Backend\PackageDetailsController;
+use App\Http\Controllers\Backend\PackagePricingController;
 use App\Http\Controllers\Backend\PageController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +55,12 @@ Route::prefix('/admin')->name('admin.')->middleware('auth:admin')->group(functio
 
         Route::get('/customer-list', 'customerList')->name('customerList');
     });
+
+    Route::resources([
+        'packages'        => PackageController::class,
+        'package_details' => PackageDetailsController::class,
+        'package_pricing' => PackagePricingController::class,
+    ]);
 
     //company info
     Route::controller(CompanyInfoController::class)->group(function () {

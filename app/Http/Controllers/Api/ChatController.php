@@ -32,8 +32,8 @@ class ChatController extends Controller {
 
     public function chatDetails($user_id, $friend_id) {
         $chat = DB::table('chats')
-            ->orWhere('send_by', $user_id)
-            ->orWhere('send_by', $friend_id)
+            ->where('user_id', $user_id)
+            ->where('friend_id', $friend_id)
             ->orderBy('id', 'desc')
             ->paginate(50);
         $unread = DB::table('chats')
@@ -53,8 +53,8 @@ class ChatController extends Controller {
 
     public function lastChatDetails($user_id, $friend_id) {
         $chat = DB::table('chats')
-            ->orWhere('send_by', $user_id)
-            ->orWhere('send_by', $friend_id)
+            ->where('user_id', $user_id)
+            ->where('friend_id', $friend_id)
             ->orderBy('id', 'desc')
             ->first();
 
