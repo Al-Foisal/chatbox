@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,9 +15,20 @@ class ChatController extends Controller {
             ->where('chats.user_id', '=', $user_id)
             ->select('users.*')
             ->distinct()
-            ->get();
+            ->pluck('id')
+            ->toArray();
+        $user2 = DB::table('users')
+            ->join('chats', 'users.id', '=', 'chats.user_id')
+            ->where('chats.friend_id', '=', $user_id)
+            ->select('users.*')
+            ->distinct()
+            ->pluck('id')
+            ->toArray();
 
-        return $user;
+        $connected      = array_merge($user, $user2);
+        $connected_user = User::whereIn('id', $connected)->get();
+
+        return $connected_user;
     }
 
     public function storeChat(Request $request) {
@@ -148,6 +160,14 @@ class ChatController extends Controller {
             ->orderBy('id', 'desc')
             ->first();
 
+        if (!$chat) {
+            $chat = DB::table('chats')
+                ->where('user_id', $friend_id)
+                ->where('friend_id', $user_id)
+                ->orderBy('id', 'desc')
+                ->first();
+        }
+
         return $chat;
     }
 
@@ -158,6 +178,15 @@ class ChatController extends Controller {
             ->where('send_by', $friend_id)
             ->where('status', 0)
             ->count();
+
+        if (!$unread) {
+            $unread = DB::table('chats')
+                ->where('user_id', $user_id)
+                ->where('friend_id', $friend_id)
+                ->where('send_by', $user_id)
+                ->where('status', 0)
+                ->count();
+        }
 
         return $unread;
     }
