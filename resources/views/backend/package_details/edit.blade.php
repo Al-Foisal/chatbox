@@ -1,17 +1,17 @@
 @extends('backend.layouts.master')
-@section('title', 'Edit Package')
+@section('title', 'Edit Package Details')
 @section('backend')
-    <!-- Content Header (Package header) -->
+    <!-- Content Header (Package Details header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Package</h1>
+                    <h1>Edit Package Details</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Edit Package</li>
+                        <li class="breadcrumb-item active">Edit Package Details</li>
                     </ol>
                 </div>
             </div>
@@ -26,29 +26,32 @@
                     <div class="card card-primary">
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ route('admin.packages.update', $package) }}" method="POST"
+                        <form action="{{ route('admin.package_details.update', $package_detail) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="card-body">
+
+                                <div class="form-group">
+                                    <select name="package_id" class="form-control" required>
+                                        @foreach($packages as $package)
+                                            <option value="{{ $package->id }}" @if($package->id == $package_detail->package_id) selected @endif>{{ $package->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Package name*</label>
+                                    <label for="exampleInputEmail1">Title*</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                        value="{{ $package->name }}" name="name" required>
+                                        value="{{ $package_detail->title }}" name="title" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Package hero text</label>
+                                    <label for="exampleInputEmail1">Details</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                        value="{{ $package->hero_text }}" name="hero_text">
+                                        value="{{ $package_detail->details }}" name="details">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Image</label>
-                                    <input type="file" class="form-control" id="exampleInputEmail1" name="image">
-                                </div>
-                                <img src="{{ asset($package->image) }}" style="height:50px;width:50px;">
                             </div>
                             <!-- /.card-body -->
 

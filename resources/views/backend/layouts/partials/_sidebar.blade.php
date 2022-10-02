@@ -63,6 +63,30 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-circle text-warning"></i>
+                        <p class="text">
+                            Packages Info
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview nav-header">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.packages.index') }}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-danger"></i>
+                                <p>Package List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.package_details.index') }}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-danger"></i>
+                                <p>Package Details</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 {{-- company info --}}
                 <li class="nav-item">
                     <a href="#" class="nav-link">

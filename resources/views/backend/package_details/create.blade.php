@@ -1,17 +1,17 @@
 @extends('backend.layouts.master')
-@section('title', 'Edit Package')
+@section('title', 'Create Package Details')
 @section('backend')
-    <!-- Content Header (Package header) -->
+    <!-- Content Header (Package Details header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Package</h1>
+                    <h1>Create Package Details</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Edit Package</li>
+                        <li class="breadcrumb-item active">Create Package Details</li>
                     </ol>
                 </div>
             </div>
@@ -26,29 +26,31 @@
                     <div class="card card-primary">
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ route('admin.packages.update', $package) }}" method="POST"
+                        <form action="{{ route('admin.package_details.store') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            @method('put')
                             <div class="card-body">
-                                
+
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Package name*</label>
+                                    <label for="">Package*</label>
+                                    <select name="package_id" class="form-control" required>
+                                        <option value="">Select Package</option>
+                                        @foreach($packages as $package)
+                                            <option value="{{ $package->id }}">{{ $package->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">title*</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                        value="{{ $package->name }}" name="name" required>
+                                        placeholder="Enter package title" name="title" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Package hero text</label>
+                                    <label for="exampleInputEmail1">Details</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                        value="{{ $package->hero_text }}" name="hero_text">
+                                        placeholder="Enter package hero text" name="details">
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Image</label>
-                                    <input type="file" class="form-control" id="exampleInputEmail1" name="image">
-                                </div>
-                                <img src="{{ asset($package->image) }}" style="height:50px;width:50px;">
                             </div>
                             <!-- /.card-body -->
 
@@ -57,25 +59,13 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.card -->
                 </div>
+                <!-- /.card -->
             </div>
+        </div>
         </div>
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 @endsection
 
-@section('jsLink')
-    <!-- Summernote -->
-    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-@endsection
-@section('jsScript')
-    <!-- Page specific script -->
-    <script>
-        $(function() {
-            // Summernote
-            $('#summernote').summernote()
-        })
-    </script>
-@endsection

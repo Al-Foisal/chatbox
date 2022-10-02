@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Package;
+use App\Models\PackageDetail;
 use Illuminate\Http\Request;
 
-class PackageDetailsController extends Controller
-{
+class PackageDetailsController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $package_details = PackageDetail::all();
+
+        return view('backend.package_details.index', compact('package_details'));
     }
 
     /**
@@ -22,9 +24,10 @@ class PackageDetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $packages = Package::all();
+
+        return view('backend.package_details.create', compact('packages'));
     }
 
     /**
@@ -33,9 +36,10 @@ class PackageDetailsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        PackageDetail::create($request->all());
+
+        return to_route('admin.package_details.index')->withToastSuccess('Package details added');
     }
 
     /**
@@ -44,8 +48,7 @@ class PackageDetailsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -55,9 +58,10 @@ class PackageDetailsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit(PackageDetail $package_detail) {
+        $packages = Package::all();
+
+        return view('backend.package_details.edit', compact('package_detail', 'packages'));
     }
 
     /**
@@ -67,9 +71,10 @@ class PackageDetailsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, PackageDetail $package_detail) {
+        $package_detail->update($request->all());
+
+        return to_route('admin.package_details.index')->withToastSuccess('Package details updated');
     }
 
     /**
@@ -78,8 +83,9 @@ class PackageDetailsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(PackageDetail $package_detail) {
+        $package_detail->delete();
+
+        return to_route('admin.package_details.index')->withToastSuccess('Package details deleted');
     }
 }
