@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Package;
+use App\Models\PackagePricing;
 use Illuminate\Http\Request;
 
 class PackagePricingController extends Controller
@@ -12,9 +14,10 @@ class PackagePricingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $package_pricing = PackagePricing::all();
+
+        return view('backend.package_pricing.index', compact('package_pricing'));
     }
 
     /**
@@ -22,9 +25,10 @@ class PackagePricingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $packages = Package::all();
+
+        return view('backend.package_pricing.create', compact('packages'));
     }
 
     /**
@@ -33,9 +37,10 @@ class PackagePricingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        PackagePricing::create($request->all());
+
+        return to_route('admin.package_pricings.index')->withToastSuccess('Package price added');
     }
 
     /**
@@ -44,8 +49,7 @@ class PackagePricingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -55,9 +59,10 @@ class PackagePricingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit(PackagePricing $package_pricing) {
+        $packages = Package::all();
+
+        return view('backend.package_pricing.edit', compact('package_pricing', 'packages'));
     }
 
     /**
@@ -67,9 +72,10 @@ class PackagePricingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, PackagePricing $package_pricing) {
+        $package_pricing->update($request->all());
+
+        return to_route('admin.package_pricings.index')->withToastSuccess('Package pricing updated');
     }
 
     /**
@@ -78,8 +84,9 @@ class PackagePricingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy(PackageDetail $package_detail) {
+    //     $package_detail->delete();
+
+    //     return to_route('admin.package_details.index')->withToastSuccess('Package details deleted');
+    // }
 }

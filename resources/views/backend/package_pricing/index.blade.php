@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title', 'Package Details ')
+@section('title', 'Package Pricing ')
 
 @section('backend')
     <!-- Content Header (Page header) -->
@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Package Details </h1>
+                    <h1>Package Pricing </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Package Details</li>
+                        <li class="breadcrumb-item active">Package Pricing</li>
                     </ol>
                 </div>
             </div>
@@ -27,7 +27,8 @@
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <a href="{{ route('admin.package_details.create') }}" class="btn btn-outline-primary">Add Package Details</a>
+                            <a href="{{ route('admin.package_pricings.create') }}" class="btn btn-outline-primary">Add
+                                Package Pricing</a>
                             <br>
                             <br>
                             <table id="" class="table table-bordered table-striped">
@@ -35,34 +36,30 @@
                                     <tr>
                                         <th>Action</th>
                                         <th>Package Name</th>
-                                        <th>Title</th>
-                                        <th>Details</th>
+                                        <th>Service Limit</th>
+                                        <th>Service Implice</th>
+                                        <th>Price</th>
+                                        <th>Discount</th>
+                                        <th>Discount Price</th>
+                                        <th>Badge</th>
                                         <th>Created_at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($package_details as $detail)
+                                    @foreach ($package_pricing as $pricing)
                                         <tr>
                                             <td class="d-flex justify-content-around">
-                                                <a href="{{ route('admin.package_details.edit', $detail) }}"
+                                                <a href="{{ route('admin.package_pricings.edit', $pricing) }}"
                                                     class="btn btn-info btn-xs"> <i class="fas fa-edit"></i> Edit</a>
-                                                
-                                                <form action="{{ route('admin.package_details.destroy', $detail) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit"
-                                                        onclick="return(confirm('Are you sure want to delete this item?'))"
-                                                        class="btn btn-danger btn-xs"> <i class="fas fa-trash-alt"> Delete</i>
-                                                    </button>
-                                                </form>
                                             </td>
-                                            <td>{{ $detail->package->name }}</td>
-                                            <td>{{ $detail->title }}</td>
-                                            <td>
-                                                {{ $detail->details }}
-                                            </td>
-                                            <td>{{ $detail->created_at }}</td>
+                                            <td>{{ $pricing->package->name }}</td>
+                                            <td>{{ $pricing->service_limit }}</td>
+                                            <td>{{ $pricing->service_implice }}</td>
+                                            <td> {{ $pricing->price }} </td>
+                                            <td> {{ $pricing->discount }} </td>
+                                            <td> {{ $pricing->discount_price }} </td>
+                                            <td> {{ $pricing->badge }} </td>
+                                            <td>{{ $pricing->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

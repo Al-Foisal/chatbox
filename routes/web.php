@@ -59,7 +59,7 @@ Route::prefix('/admin')->name('admin.')->middleware('auth:admin')->group(functio
     Route::resources([
         'packages'        => PackageController::class,
         'package_details' => PackageDetailsController::class,
-        'package_pricing' => PackagePricingController::class,
+        'package_pricings' => PackagePricingController::class,
     ]);
 
     //company info
