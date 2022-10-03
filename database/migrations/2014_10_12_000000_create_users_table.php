@@ -36,6 +36,11 @@ return new class extends Migration
             $table->string('image5')->nullable();
             $table->string('image6')->nullable();
             $table->string('otp')->nullable();
+            $table->integer('distance')->nullable();
+            $table->tinyInteger('search_expand')->nullable();
+            $table->string('show_me')->nullable();
+            $table->integer('age_from')->nullable();
+            $table->integer('age_to')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

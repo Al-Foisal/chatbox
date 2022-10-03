@@ -116,15 +116,20 @@ class FriendAuthController extends Controller {
 
         }
 
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->emoji    = $request->emoji;
-        $user->password = bcrypt($request->password);
-        $user->dob      = $request->dob;
-        $user->gender   = $request->gender;
-        $user->lat      = $request->lat;
-        $user->long     = $request->long;
-        $user->image1   = $final_name1 ?? 'img';
+        $user->name          = $request->name;
+        $user->email         = $request->email;
+        $user->emoji         = $request->emoji;
+        $user->password      = bcrypt($request->password);
+        $user->dob           = $request->dob;
+        $user->gender        = $request->gender;
+        $user->lat           = $request->lat;
+        $user->long          = $request->long;
+        $user->image1        = $final_name1 ?? 'img';
+        $user->distance      = 100;
+        $user->search_expand = 1;
+        $user->show_me       = $request->gender == 'Male' ? 'Female' : 'Male';
+        $user->age_from      = 18;
+        $user->age_to        = 50;
         $user->save();
 
         return response()->json(['status' => true, 'user' => $user]);
@@ -320,6 +325,25 @@ class FriendAuthController extends Controller {
 
         $user->save();
 
+        return $user;
+    }
+
+    public function updateSettings(Request $request, User $user) {
+        $user->lat           = $request->lat;
+        $user->long          = $request->long;
+        $user->distance      = $request->distance;
+        $user->search_expand = $request->search_expand;
+        $user->show_me       = $request->show_me;
+        $user->age_from      = $request->age_from;
+        $user->age_to        = $request->age_to;
+        $user->save();
+
+        return $user;
+    }
+
+    public function settings($id)
+    {
+        $user = User::where('id',$id)->select(['lat','long','distance','search_expand','show_me','age_from','age_to'])->first();
         return $user;
     }
 

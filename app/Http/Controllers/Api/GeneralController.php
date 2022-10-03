@@ -14,6 +14,15 @@ class GeneralController extends Controller {
     }
 
     public function packages() {
+        // DB::table("users")
+        //             ->select("users.id"
+        //                 ,DB::raw("6371 * acos(cos(radians(" . $lat . ")) 
+        //                 * cos(radians(users.lat)) 
+        //                 * cos(radians(users.long) - radians(" . $lon . ")) 
+        //                 + sin(radians(" .$lat. ")) 
+        //                 * sin(radians(users.lat))) AS distance"))
+        //                 ->groupBy("users.id")
+        //                 ->get();
         $package = Package::all();
 
         return $package;

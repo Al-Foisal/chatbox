@@ -35,6 +35,10 @@ Route::prefix('/friend')->group(function () {
 
         //profile update
         Route::post('/update-profile', 'updateProfile');
+        Route::post('/update-settings/{user}', 'updateSettings');
+        Route::get('/settings/{id}', 'settings');
+
+        //get user
     });
 
     Route::controller(UserSelectionController::class)->prefix('/us')->group(function () {
