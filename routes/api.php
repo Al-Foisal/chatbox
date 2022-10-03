@@ -70,6 +70,8 @@ Route::prefix('/friend')->group(function () {
 
 Route::controller(GeneralController::class)->prefix('/general')->group(function () {
     Route::get('/help', 'help');
+    Route::get('/packages', 'packages');
+    Route::get('/packages/{id}', 'packageDetails');
 });
 
 /**********************************************Marriage-Registration***************************************** */
