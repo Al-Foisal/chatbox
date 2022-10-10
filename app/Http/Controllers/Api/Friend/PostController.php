@@ -8,14 +8,22 @@ use App\Models\PostComment;
 use App\Models\PostImage;
 use App\Models\PostLike;
 use App\Models\PostVideo;
+use App\Models\UserSelection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class PostController extends Controller {
     public function index($user_id) {
-        $post = Post::where('user_id', $user_id)
-            ->with(['images', 'videos', 'comments'])
-            ->withCount('likes')
+        $conected_friend = DB::table('user_selections')
+            ->where('user_id', $user_id)
+            ->where('status', '!=', 0)
+            ->pluck('friend_id')
+            ->toArray();
+
+        $post = Post::whereIn('user_id', $conected_friend)
+            ->with('images', 'videos', 'comments', 'likes')
+            ->orderBy('id', 'desc')
             ->get();
 
         return $post;

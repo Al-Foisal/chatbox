@@ -6,22 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserSelection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserSelectionController extends Controller {
     public function us($id) {
-        $data = [];
 
-//         $auth = User::find($id);
+        //find authenticated user
+        $auth = User::find($id);
 
-// // $data['users'] = $users = DB::table('users')->whereNull('otp')->where('id','!=',$id)->pluck('id')->toArray();
+//finding authenticated user, and
+        //reverse gender of authenticated user
+        $reverse_user = DB::table('users')
+            ->where('gender', '!=', $auth->gender)
+            ->where('id', '!=', $auth->id)
+            ->pluck('id')
+            ->toArray();
 
-//         // return nearest_user($auth->ip, $users);
+        //matching user
+        $selected_user = DB::table('user_selections')
+            ->where('user_id', $auth->id)
+            ->where('status', '!=', 0)
+            ->pluck('friend_id')
+            ->toArray();
 
-//         $data['users'] = DB::table('users')->whereNull('otp')->where('id', '!=', $id)->get();
+        $user = array_diff($reverse_user, $selected_user);
 
-        $data['friends'] = User::where('id', '!=', $id)->get();
+        $available_user = DB::table('users')
+            ->whereIn('id', $user)
+            ->orderBy('updated_at', 'DESC')
+            ->paginate(50);
 
-        return $data;
+        return $available_user;
     }
 
     public function userChoiceAs(Request $request) {

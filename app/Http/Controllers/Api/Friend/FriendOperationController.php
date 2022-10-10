@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Friend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 use App\Models\UserSelection;
+use Illuminate\Support\Facades\DB;
 
 class FriendOperationController extends Controller {
     public function friendList($user_id) {
@@ -13,10 +13,7 @@ class FriendOperationController extends Controller {
             ->pluck('friend_id')
             ->toArray();
 
-        $friend = Post::whereIn('user_id', $conected_friend)
-            ->with('images', 'videos', 'comments', 'likes')
-            ->orderBy('id', 'desc')
-            ->get();
+        $friend = DB::table('users')->whereIn('id', $conected_friend)->get();
 
         return $friend;
     }
