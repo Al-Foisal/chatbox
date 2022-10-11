@@ -41,6 +41,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Image*</label>
+                                    <input type="file" class="form-control" id="exampleInputEmail1"
+                                        placeholder="Enter package title" name="image" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">title*</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
                                         placeholder="Enter package title" name="title" required>

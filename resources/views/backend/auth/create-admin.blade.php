@@ -10,7 +10,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="{{ route('admin.dashboard') }}" class="h1">
-                    Bazar<b>kart</b>
+                    Chat Box</b>
                 </a>
             </div>
             <div class="card-body" style="width: 80%;margin:auto;">

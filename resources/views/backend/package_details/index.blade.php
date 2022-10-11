@@ -35,6 +35,7 @@
                                     <tr>
                                         <th>Action</th>
                                         <th>Package Name</th>
+                                        <th>Image</th>
                                         <th>Title</th>
                                         <th>Details</th>
                                         <th>Created_at</th>
@@ -58,6 +59,9 @@
                                                 </form>
                                             </td>
                                             <td>{{ $detail->package->name }}</td>
+                                            <td>
+                                                <img src="{{ asset($detail->image) }}" style="height:50px;width:50px">
+                                            </td>
                                             <td>{{ $detail->title }}</td>
                                             <td>
                                                 {{ $detail->details }}

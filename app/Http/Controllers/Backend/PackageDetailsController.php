@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\PackageDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PackageDetailsController extends Controller {
     /**
@@ -37,7 +38,31 @@ class PackageDetailsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        PackageDetail::create($request->all());
+
+        if ($request->hasFile('image')) {
+
+            $image_file = $request->file('image');
+
+            if ($image_file) {
+
+                $img_gen   = hexdec(uniqid());
+                $image_url = 'images/package/';
+                $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                $img_name    = $img_gen . '.' . $image_ext;
+                $final_name1 = $image_url . $img_gen . '.' . $image_ext;
+
+                $image_file->move($image_url, $img_name);
+            }
+
+        }
+
+        PackageDetail::create([
+            'package_id' => $request->package_id,
+            'image'      => $final_name1,
+            'title'      => $request->title,
+            'details'    => $request->details,
+        ]);
 
         return to_route('admin.package_details.index')->withToastSuccess('Package details added');
     }
@@ -72,7 +97,37 @@ class PackageDetailsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, PackageDetail $package_detail) {
-        $package_detail->update($request->all());
+
+        if ($request->hasFile('image')) {
+
+            $image_file = $request->file('image');
+
+            if ($image_file) {
+
+                $image_path = public_path($package_detail->image);
+
+                if (File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+
+                $img_gen   = hexdec(uniqid());
+                $image_url = 'images/package/';
+                $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                $img_name    = $img_gen . '.' . $image_ext;
+                $final_name1 = $image_url . $img_gen . '.' . $image_ext;
+
+                $image_file->move($image_url, $img_name);
+                $package_detail->image = $final_name1;
+                $package_detail->save();
+            }
+
+        }
+
+        $package_detail->package_id = $request->package_id;
+        $package_detail->title      = $request->title;
+        $package_detail->details    = $request->details;
+        $package_detail->save();
 
         return to_route('admin.package_details.index')->withToastSuccess('Package details updated');
     }
@@ -84,8 +139,15 @@ class PackageDetailsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(PackageDetail $package_detail) {
+        $image_path = public_path($package_detail->image);
+
+        if (File::exists($image_path)) {
+            File::delete($image_path);
+        }
+
         $package_detail->delete();
 
         return to_route('admin.package_details.index')->withToastSuccess('Package details deleted');
     }
+
 }

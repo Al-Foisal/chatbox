@@ -39,6 +39,12 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Image*</label>
+                                    <input type="file" class="form-control" id="exampleInputEmail1"
+                                        placeholder="Enter package title" name="image" required>
+                                        <img src="{{ asset($package->detail->image) }}" alt="">
+                                </div>
                                 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Title*</label>

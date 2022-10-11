@@ -23,7 +23,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="{{ route('admin.auth.login') }}" class="h1">
-                    Laundry Man BD
+                    <h1>Chat Box</h1>
                 </a>
             </div>
             <div class="card-body">

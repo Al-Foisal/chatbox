@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('package_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('package_id')->constrained();
+            $table->string('image');
             $table->string('title');
             $table->string('details')->nullable();
             $table->timestamps();

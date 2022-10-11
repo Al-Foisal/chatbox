@@ -24,7 +24,7 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <h1>Laundry Man BD</h1>
+                <h1>Chat Box</h1>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Login in to start your session</p>
