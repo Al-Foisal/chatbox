@@ -41,22 +41,28 @@ class PostController extends Controller {
          */
 
         if ($request->hasFile('image')) {
-            $files = [];
 
-            foreach ($request->file('image') as $file) {
-                $name = time() . rand(1111, 9999) . '.' . $file->extension();
-                $file->move(public_path('images/post/img/'), $name);
-                $files[] = 'iamges/post/img/' . $name;
-            }
+            $image_file = $request->file('image');
 
-            foreach ($files as $file) {
+            if ($image_file) {
+
+                $img_gen   = hexdec(uniqid());
+                $image_url = 'images/post/';
+                $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                $img_name    = $img_gen . '.' . $image_ext;
+                $final_name1 = $image_url . $img_gen . '.' . $image_ext;
+
+                $image_file->move($image_url, $img_name);
+
                 $post_image          = new PostImage();
                 $post_image->post_id = $post->id;
-                $post_image->image   = $file;
+                $post_image->image   = $final_name1;
                 $post_image->save();
             }
 
         }
+
 
         /**
          * multiple video insertion
@@ -64,23 +70,29 @@ class PostController extends Controller {
          */
 
         if ($request->hasFile('video')) {
-            $files = [];
 
-            foreach ($request->file('video') as $file) {
-                $name = time() . rand(1111, 9999) . '.' . $file->extension();
-                $file->move(public_path('images/post/video/'), $name);
-                $files[] = 'iamges/post/video/' . $name;
-            }
+            $image_file = $request->file('video');
 
-            foreach ($files as $file) {
+            if ($image_file) {
+
+                $img_gen   = hexdec(uniqid());
+                $image_url = 'images/post/video/';
+                $image_ext = strtolower($image_file->getClientOriginalExtension());
+
+                $img_name    = $img_gen . '.' . $image_ext;
+                $final_name1 = $image_url . $img_gen . '.' . $image_ext;
+
+                $image_file->move($image_url, $img_name);
+
                 $post_video          = new PostVideo();
                 $post_video->post_id = $post->id;
-                $post_video->video   = $file;
+                $post_video->video   = $final_name1;
                 $post_video->save();
             }
 
         }
 
+        
         return response()->json(['status' => true, 'message' => 'Post added!!']);
     }
 
