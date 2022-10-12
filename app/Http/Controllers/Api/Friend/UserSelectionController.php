@@ -26,7 +26,7 @@ class UserSelectionController extends Controller {
         $selected_user = DB::table('user_selections')
             ->where('user_id', $auth->id)
             ->where('status', '!=', 0)
-            ->pluck('friend_id')
+            ->pluck('selected_user_id')
             ->toArray();
 
         $user = array_diff($reverse_user, $selected_user);
