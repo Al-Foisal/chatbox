@@ -8,7 +8,6 @@ use App\Models\PostComment;
 use App\Models\PostImage;
 use App\Models\PostLike;
 use App\Models\PostVideo;
-use App\Models\UserSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -22,7 +21,10 @@ class PostController extends Controller {
             ->toArray();
 
         $post = Post::whereIn('user_id', $conected_friend)
-            ->with('images', 'videos', 'comments', 'likes')
+            ->with(['images', 'videos', 'comments', 'likes', 'user' => function ($query) {
+                return $query->select(['id', 'name', 'image1']);
+            },
+            ])
             ->orderBy('id', 'desc')
             ->get();
 
@@ -63,7 +65,6 @@ class PostController extends Controller {
 
         }
 
-
         /**
          * multiple video insertion
          * ------------------------
@@ -92,13 +93,15 @@ class PostController extends Controller {
 
         }
 
-        
         return response()->json(['status' => true, 'message' => 'Post added!!']);
     }
 
     public function details($post_id) {
         $post = Post::where('id', $post_id)
-            ->with(['images', 'videos', 'comments'])
+            ->with(['images', 'videos', 'comments', 'user' => function ($query) {
+                return $query->select(['id', 'name', 'image1']);
+            },
+            ])
             ->withCount('likes')
             ->first();
 
