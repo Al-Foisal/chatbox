@@ -98,7 +98,7 @@ class PostController extends Controller {
 
     public function details($post_id) {
         $post = Post::where('id', $post_id)
-            ->with(['images', 'videos', 'comments', 'likes', 'user' => function ($query) {
+            ->with(['images', 'videos', 'comments.user', 'likes', 'user' => function ($query) {
                 return $query->select(['id', 'name', 'image1']);
             },
             ])
